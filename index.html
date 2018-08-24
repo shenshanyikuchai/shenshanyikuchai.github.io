@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=" utf-8">
+<meta name="author" content="http://www.softwhy.com/" />
+<title>单摆</title>
+<style>
+html,body,canvas{
+  width:100vw;
+  height:100vh;
+  background:#000000;
+  overflow:hidden;
+}
+</style>
+<script>
+setTimeout(() => {
+  let canvas = document.querySelector('canvas');
+  let context = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+ 
+  let pointer = {
+    x: canvas.width / 2,
+    y: canvas.height / 4
+  };
+ 
+  let angleInit = Math.PI / 6;
+  let angle;
+ 
+  let render = function () {
+    context.clearRect(0, 0, canvas.width, canvas.height);   
+    // 小球
+    context.save();
+    context.fillStyle = "green";
+    context.translate(pointer.x, pointer.y);
+    context.rotate(angle);
+    context.beginPath();
+    context.arc(0, 200, 30, 0, 2 * Math.PI, false);
+    context.fill();
+ 
+    context.strokeStyle = "gray";
+    context.lineWidth = 2;
+    context.beginPath();
+    context.moveTo(0, 0);
+    context.lineTo(0, 200);
+    context.stroke();
+    context.restore();
+  };
+ 
+  let reverse = false;
+  let run;
+  (run = (time) => {
+    if (!time) {
+      angle = angleInit;
+    }
+   angle = angleInit * Math.cos(6 * time / 1000)
+   render();
+   requestAnimationFrame(run)
+  })();
+}, 500);
+</script>
+</head>
+<body>
+<canvas></canvas>
+</body>
+</html>
